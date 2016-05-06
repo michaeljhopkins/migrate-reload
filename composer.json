@@ -1,5 +1,5 @@
 {
-    "name": "hopkins/migrate-reload"
+    "name": "hopkins/migrate-reload",
     "type": "library",
     "description": "A simple console command to drop every table in the database, and then run migrations, as well as seeds. Helpful for rapid development when you do not want to deal with the down() methods of migrations",
     "keywords": [
