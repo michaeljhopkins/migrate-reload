@@ -2,9 +2,14 @@
 
 namespace Hopkins\MigrateReload;
 
-use Illuminate\Config\Repository;
+use Illuminate\Console\Command;
 use Illuminate\Foundation\Application;
 
+/**
+ * @property Application db
+ * @property Application app
+ * @property Application schema
+ */
 class MigrateReloadCommand extends Command
 {
     protected $name = 'migrate:reload';
@@ -18,25 +23,35 @@ class MigrateReloadCommand extends Command
      */
     private $config;
 
-    public function __construct(Application $application, Repository $config){
+    /**
+     * MigrateReloadCommand constructor.
+     * @param Application $application
+     */
+    public function __construct(Application $application){
+        parent::__construct();
+        $this->app = $application;
+        $this->config = $application['config'];
+        /** @var \Illuminate\Database\MySqlConnection db */
+        $this->db = $application['db'];
 
-        $this->application = $application;
-        $this->config = $config;
     }
 
-    public function handle()
+    public function fire()
     {
-        if ($this->application->environment() == 'production') {
+        /** @var \Illuminate\Database\MySqlConnection $db */
+        $db = $this->db;
+        if ($this->app->environment() == 'production') {
             $this->error('This is prod. If you meant to do this, use the --force option. If you didn\'t feel free to paypal me some cash as a thank you. mhopkins321@gmail.com');
 
             return;
         }
         #if (!\App::environment('production')) {
-        $tables = \DB::select('SHOW TABLES');
+
+        $tables = $db->select('SHOW TABLES');
         $tables_in_database = 'Tables_in_' . \Config::get('database.connections.mysql.database');
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $db->statement('SET FOREIGN_KEY_CHECKS=0;');
         foreach ($tables as $table) {
-            \Schema::drop($table->$tables_in_database);
+            $db->statement('DROP TABLE '.$table->$tables_in_database);
             $this->info('<info>Dropped: </info>' . $table->$tables_in_database);
         }
 
@@ -47,7 +62,7 @@ class MigrateReloadCommand extends Command
         $this->info(implode("\n", $seedOutput));
         $this->info('Seeded');
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $db->statement('SET FOREIGN_KEY_CHECKS=1;');
         #}
     }
 }

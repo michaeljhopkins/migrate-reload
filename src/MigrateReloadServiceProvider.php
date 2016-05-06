@@ -2,10 +2,12 @@
 
 namespace Hopkins\MigrateReload;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class MigrateReloadServiceProvider extends ServiceProvider
 {
+
     /**
      * Perform post-registration booting of services.
      *
@@ -13,7 +15,7 @@ class MigrateReloadServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        
     }
 
     /**
@@ -23,6 +25,16 @@ class MigrateReloadServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app['command.migrate.reload'] = $this->app->share(
+            function ($app) {
+                return new MigrateReloadCommand($app);
+            }
+        );
+        $this->commands('command.migrate.reload');
+    }
+   
+    public function provides()
+    {
+        return array('command.migrate.reload');
     }
 }
