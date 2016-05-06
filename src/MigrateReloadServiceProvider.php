@@ -2,7 +2,6 @@
 
 namespace Hopkins\MigrateReload;
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class MigrateReloadServiceProvider extends ServiceProvider
