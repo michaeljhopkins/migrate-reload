@@ -1,0 +1,42 @@
+{
+    "name": "Hopkins/MigrateReload",
+    "type": "library",
+    "description": "A simple console command to drop every table in the database, and then run migrations, as well as seeds. Helpful for rapid development when you do not want to deal with the down() methods of migrations",
+    "keywords": [
+        "Hopkins",
+        "MigrateReload"
+    ],
+    "homepage": "https://github.com/michaeljhopkins/MigrateReload",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Hopkins",
+            "email": "mhopkins321@gmail.com",
+            "homepage": "https://github.com/michaeljhopkins",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "illuminate/config": ">=5.0",
+        "illuminate/foundation": ">=5.0",
+        "php" : "~5.5|~7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hopkins\\MigrateReload\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hopkins\\MigrateReload\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
