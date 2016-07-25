@@ -17,8 +17,8 @@
         }
     ],
     "require": {
-        "illuminate/config": "5.2.x|5.3.x",
-        "illuminate/container": "5.2.x|5.3.x",
+        "illuminate/config": "^5.0,<5.4",
+        "illuminate/container": "^5.0,<5.4",
         "php" : "~5.5|~7.0"
     },
     "autoload": {
