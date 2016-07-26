@@ -55,10 +55,12 @@ class MigrateReloadCommand extends Command
             $this->info('<info>Dropped: </info>' . $table->$tables_in_database);
         }
 
-        exec('php artisan migrate --force -vvv', $migrateOutput);
+        exec('composer dump');
+        exec('php artisan clear-compiled');
+        exec('php artisan migrate', $migrateOutput);
         $this->info(implode("\n", $migrateOutput));
         $this->info('Migrated');
-        exec('php artisan db:seed --force -vvv', $seedOutput);
+        exec('php artisan db:seed', $seedOutput);
         $this->info(implode("\n", $seedOutput));
         $this->info('Seeded');
 
